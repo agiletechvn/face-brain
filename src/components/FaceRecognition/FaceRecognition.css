@@ -6,3 +6,9 @@
   justify-content: center;
   cursor: pointer;
 }
+
+.label-box {
+  position: absolute;
+  background: #149df2;
+  color: #ffffff;
+}
