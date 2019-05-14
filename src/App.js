@@ -35,6 +35,7 @@ class App extends Component {
     super();
     this.state = initialState;
     this.running = false;
+    this.baseURL = 'http://' + window.location.hostname + ':5000';
   }
 
   loadUser = data => {
@@ -94,7 +95,7 @@ class App extends Component {
       const formData = new FormData();
       formData.set('file', file, file.name);
       formData.set('size', 500);
-      fetch('http://localhost:5000/search_file', {
+      fetch(this.baseURL + '/search_file', {
         // Your POST endpoint
         method: 'POST',
         body: formData
@@ -127,7 +128,7 @@ class App extends Component {
     const formData = new FormData();
     formData.set('file', file, file.name);
     // formData.set('jitter', 100);
-    fetch('http://localhost:5000/search_file', {
+    fetch(this.baseURL + '/search_file', {
       // Your POST endpoint
       method: 'POST',
       body: formData

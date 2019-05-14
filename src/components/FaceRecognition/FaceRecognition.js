@@ -43,21 +43,25 @@ class FaceRecognition extends React.Component {
                 <div
                   className="bounding-box"
                   style={{
-                    top: rect[0],
-                    width: rect[1] - rect[3],
-                    height: rect[2] - rect[0],
-                    left: rect[3]
+                    left: rect[0],
+                    top: rect[1],
+                    width: rect[2],
+                    height: rect[3]
                   }}
                 />
                 <small
                   className="label-box"
                   style={{
-                    top: rect[2],
-                    width: rect[1] - rect[3],
-                    left: rect[3]
+                    top: rect[1],
+                    width: rect[2],
+                    left: rect[0]
                   }}
                 >
-                  {result[0].name} ({(result[0].confidence * 100).toFixed(2)}%)
+                  {result[0].confidence > 0.8
+                    ? `${result[0].name} (${(
+                        result[0].confidence * 100
+                      ).toFixed(2)}%)`
+                    : 'unknown'}
                 </small>
               </div>
             ))}
