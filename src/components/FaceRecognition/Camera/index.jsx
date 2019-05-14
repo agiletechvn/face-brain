@@ -18,7 +18,7 @@ class Camera extends Component {
         // console.log(mediaStream);
       } else if (navigator.mediaDevices) {
         navigator.mediaDevices
-          .getUserMedia({ video, audio })
+          .getUserMedia({ video: {} })
           .then(mediaStream => {
             this.mediaStream = mediaStream;
             callback(this.mediaStream);

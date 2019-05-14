@@ -94,7 +94,7 @@ class App extends Component {
       // console.log(file);
       const formData = new FormData();
       formData.set('file', file, file.name);
-      formData.set('size', 500);
+      // formData.set('size', 200);
       fetch(this.baseURL + '/search_file', {
         // Your POST endpoint
         method: 'POST',
