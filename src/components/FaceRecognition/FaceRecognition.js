@@ -57,7 +57,7 @@ class FaceRecognition extends React.Component {
                     left: rect[0]
                   }}
                 >
-                  {result[0].confidence > 0.8
+                  {result && result[0].confidence > 0.8
                     ? `${result[0].name} (${(
                         result[0].confidence * 100
                       ).toFixed(2)}%)`
