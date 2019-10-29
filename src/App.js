@@ -35,7 +35,8 @@ class App extends Component {
     super();
     this.state = initialState;
     this.running = false;
-    this.baseURL = 'http://' + window.location.hostname + ':5000';
+    // this.baseURL = 'http://' + window.location.hostname + ':5000';
+    this.baseURL = 'http://192.168.1.99';
   }
 
   loadUser = data => {
@@ -93,9 +94,11 @@ class App extends Component {
     this.face.capture(file => {
       // console.log(file);
       const formData = new FormData();
-      formData.set('file', file, file.name);
+      file.name = file.name || new Date().getTime() + '.jpg';
+      formData.set('img', file, file.name);
+      console.log(file);
       // formData.set('size', 200);
-      fetch(this.baseURL + '/search_file', {
+      fetch(this.baseURL + '/detect_image', {
         // Your POST endpoint
         method: 'POST',
         body: formData
@@ -104,8 +107,10 @@ class App extends Component {
           response => response.json() // if the response is a JSON object
         )
         .then(info => {
-          this.face.setState({ info });
-          this.detect();
+          if (Array.isArray(info)) {
+            this.face.setState({ info });
+            this.detect();
+          }
         })
         .catch(error => {
           console.log(error); // Handle the error response object
@@ -126,9 +131,9 @@ class App extends Component {
     this.running = false;
     const file = event.target.files[0];
     const formData = new FormData();
-    formData.set('file', file, file.name);
+    formData.set('img', file, file.name);
     // formData.set('jitter', 100);
-    fetch(this.baseURL + '/search_file', {
+    fetch(this.baseURL + '/detect_image', {
       // Your POST endpoint
       method: 'POST',
       body: formData

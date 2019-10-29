@@ -7,6 +7,10 @@
   cursor: pointer;
 }
 
+.absolute {
+  position: relative;
+}
+
 .label-box {
   position: absolute;
   background: #149df2;

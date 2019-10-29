@@ -5,22 +5,31 @@ import './FaceRecognition.css';
 class FaceRecognition extends React.Component {
   state = {
     info: [],
-    camera: false
+    camera: false,
+    scale: 1,
+    minConfidence: 0.75
   };
   capture(callback) {
     this.camera.capture(callback);
   }
 
+  onLoad = e => {
+    const img = document.querySelector('#inputimage');
+    this.setState({ scale: img.width / img.naturalWidth });
+  };
+
   render() {
     const { imageUrl, streamURL } = this.props;
-    const { info, camera } = this.state;
+    const { info, camera, scale, minConfidence } = this.state;
+    // console.log(this.scale);
     return (
       <div className="center ma">
         <div className="absolute mt2">
           {imageUrl ? (
             <img
-              style={{ maxWidth: 'none' }}
+              style={{ maxWidth: '100%' }}
               id="inputimage"
+              onLoad={this.onLoad}
               width="auto"
               alt=""
               src={imageUrl}
@@ -38,29 +47,29 @@ class FaceRecognition extends React.Component {
           )}
 
           {info &&
-            info.map(({ rect, result }, index) => (
+            info.map(({ rect, landmarks, detected }, index) => (
               <div key={index}>
                 <div
                   className="bounding-box"
                   style={{
-                    left: rect[0],
-                    top: rect[1],
-                    width: rect[2],
-                    height: rect[3]
+                    left: rect[0] * scale,
+                    top: rect[1] * scale,
+                    width: (rect[2] - rect[0]) * scale,
+                    height: (rect[3] - rect[1]) * scale
                   }}
                 />
                 <small
                   className="label-box"
                   style={{
-                    top: rect[1],
-                    width: rect[2],
-                    left: rect[0]
+                    left: rect[0] * scale,
+                    top: rect[1] * scale,
+                    width: (rect[2] - rect[0]) * scale
                   }}
                 >
-                  {result && result[0].confidence > 0.8
-                    ? `${result[0].name} (${(
-                        result[0].confidence * 100
-                      ).toFixed(2)}%)`
+                  {detected.confidence > minConfidence
+                    ? `${detected.name} (${(detected.confidence * 100).toFixed(
+                        2
+                      )}%)`
                     : 'unknown'}
                 </small>
               </div>
